@@ -595,7 +595,7 @@ with tab_laboratorio:
         directorio_actual = os.path.dirname(os.path.abspath(__file__))
         ruta_archivo_pesos = os.path.join(directorio_actual, "mejor_modelo.pth")
         
-        MODEL_DOWNLOAD_URL = "https://io.googleup.workers.dev/?id=1RaTULpeDLPxZ4H5Q338Xu8GyUyR-vxdN" 
+        MODEL_DOWNLOAD_URL = "https://docs.google.com/uc?export=download&id=1RaTULpeDLPxZ4H5Q338Xu8GyUyR-vxdN&confirm=t" 
         
         # Si el archivo NO existe en el servidor, se fuerza la descarga automatizada
         if not os.path.exists(ruta_archivo_pesos):
