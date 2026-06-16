@@ -85,7 +85,7 @@ else:
 
 # CONFIGURACIÓN DEL ENTORNO WEB DE STREAMLIT
 st.set_page_config(
-    page_title="NeuroScanAI Core Gateway",
+    page_title="NeuroScan Gateway",
     layout="wide",
     initial_sidebar_state="expanded"
 )
@@ -268,9 +268,22 @@ with st.sidebar:
     api_key_gemini = st.text_input(
         "Google Gemini API Key:", 
         type="password", 
-        help="Consigue tu clave de desarrollo gratuita en aistudio.google.com"
+        help="Consigue tu clave de desarrollo gratuita en Google AI Studio"
     )
+    
+    # GUÍA RÁPIDA DE ASISTENCIA INTEGRADA
     st.markdown("---")
+    st.info(" **¿No tienes una API Key?** El modelo requiere una clave de desarrollo gratuita para generar el reporte analítico.")
+    
+    with st.expander(" Tutorial: Generar API Key Gratuita"):
+        st.markdown("""
+        1. **Accede a la plataforma:** Entra al sitio oficial de [Google AI Studio](https://aistudio.google.com/).
+        2. **Inicia Sesión:** Ingresa con cualquier cuenta común de Google (Gmail).
+        3. **Crear Clave:** Haz clic en el botón azul **'Get API key'** (Obtener API Key) arriba a la izquierda.
+        4. **Generar Token:** Selecciona **'Create API key'**, elige tu proyecto y copia la clave generada (empieza con `AIza...`).
+        5. **Activar App:** Pega la clave en el recuadro de arriba y presiona `Enter`.
+            *(Nota: Si tu navegador muestra una ventana emergente preguntando si deseas **guardar la contraseña**, selecciona **'No'** o presiona **'Cancelar'**).*
+        """)
     if api_key_gemini:
         genai.configure(api_key=api_key_gemini)
         st.success("Enlace a la API de Google activo.")
