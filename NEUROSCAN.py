@@ -590,9 +590,29 @@ with tab_laboratorio:
     @st.cache_resource
     def cargar_modelo_en_gpu():
         modelo_red = BestCNN(num_classes=4)
-        #ruta_archivo_pesos = "D:\DECIMO SEMESTRE\IMAGENOLOGÍA\proyecto final\mejor_modelo.pth"
+        
+        # OBTENER LA RUTA ABSOLUTA AUTOMÁTICA EN EL SERVIDOR DE STREAMLIT
         directorio_actual = os.path.dirname(os.path.abspath(__file__))
         ruta_archivo_pesos = os.path.join(directorio_actual, "mejor_modelo.pth")
+        
+        MODEL_DOWNLOAD_URL = "https://io.googleup.workers.dev/?id=1RaTULpeDLPxZ4H5Q338Xu8GyUyR-vxdN" 
+        
+        # Si el archivo NO existe en el servidor, se fuerza la descarga automatizada
+        if not os.path.exists(ruta_archivo_pesos):
+            with st.spinner("Descargando parámetros del modelo entrenado desde la nube... (Esto puede tardar un minuto)"):
+                try:
+                    import requests
+                    response = requests.get(MODEL_DOWNLOAD_URL, stream=True)
+                    response.raise_for_status() # Verifica que el enlace no tire error 404 o 403
+                    
+                    with open(ruta_archivo_pesos, "wb") as f:
+                        for chunk in response.iter_content(chunk_size=8192):
+                            f.write(chunk)
+                    st.success("¡Modelo de red neuronal descargado exitosamente!")
+                except Exception as e:
+                    return modelo_red, False, f"⚠️ Error de descarga. Corriendo en MODO DEMO. Detalle: {str(e)}"
+        
+        # Una vez que el archivo ya existe (local o recién descargado), se cargan los pesos
         if os.path.exists(ruta_archivo_pesos):
             try:
                 estado_pesos = torch.load(ruta_archivo_pesos, map_location=device)
@@ -602,8 +622,9 @@ with tab_laboratorio:
                 modelo_red.to(device).eval()
                 return modelo_red, True, "Parámetros cargados correctamente en el hardware de inferencia."
             except Exception as e:
-                return modelo_red, False, f"Modo Demostración activo. Error: {str(e)}"
-        return modelo_red, False, "Archivo 'mejor_modelo.pth' no localizado. Usando parámetros aleatorios."
+                return modelo_red, False, f"Modo Demostración activo. Error al estructurar pesos: {str(e)}"
+                
+        return modelo_red, False, "Archivo 'mejor_modelo.pth' no localizado."
 
     model, pesos_reales_listos, mensaje_estado_modelo = cargar_modelo_en_gpu()
     st.info(f"**Consola de Pesos:** {mensaje_estado_modelo}")
