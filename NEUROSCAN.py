@@ -278,7 +278,7 @@ with st.sidebar:
     with st.expander(" Tutorial: Generar API Key Gratuita"):
         st.markdown("""
         1. **Accede a la plataforma:** Entra al sitio oficial de [Google AI Studio](https://aistudio.google.com/).
-        2. **Inicia Sesión:** Ingresa con cualquier cuenta común de Google (Gmail).
+        2. **Inicia Sesión:** Ingresa con cualquier cuenta común de Google (Gmail). Asegúrate de no usar una cuenta institucional.
         3. **Crear Clave:** Haz clic en el botón azul **'Get API key'** (Obtener API Key) arriba a la izquierda.
         4. **Generar Token:** Selecciona **'Create API key'**, elige tu proyecto y copia la clave generada (empieza con `AIza...`).
         5. **Activar App:** Pega la clave en el recuadro de arriba y presiona `Enter`.
@@ -488,7 +488,7 @@ with tab_teoria:
 
 with tab_tutor:
     st.markdown("<div class='pro-card'><h4>Consola de Diálogo Clínico e Ingeniería</h4>"
-                "Asistente virtual potenciado por <strong>Google Gemini (Nivel Gratuito)</strong> para resolver dudas de código, arquitectura de la red o detalles patológicos de tumores de forma interactiva.</div>", unsafe_allow_html=True)
+                "Asistente virtual potenciado por <strong>Google Gemini (Nivel Gratuito)</strong> para resolver dudas de código, arquitectura de la red o detalles patológicos de tumores de forma interactiva. Antes de iniciar el chat con Google Gemini, abre la pestaña 'Credenciales del Sistema' con el ícono (>>) en el extremo izquierdo de la ventana. </div>", unsafe_allow_html=True)
 
     if "historial_chat" not in st.session_state:
         st.session_state.historial_chat = [
